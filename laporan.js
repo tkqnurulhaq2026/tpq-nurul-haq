@@ -58,6 +58,7 @@ onSnapshot(q, (snapshot) => {
     });
 
     renderBulan(bulanMap[currentKey], currentKey);
+});
 
 function renderBulan(data, key) {
     currentData = data;
@@ -150,4 +151,6 @@ document.getElementById('btn-export').addEventListener('click', function() {
     link.href = URL.createObjectURL(blob);
     link.download = `pembukuan-${currentKey || 'export'}.csv`;
     link.click();
+});
+
 });
