@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembukuan Bulanan TPQ Nurul Haq</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Laporan</a>
+        <a href="pembukuan.html" class="active">Pembukuan</a>
+        <button id="btn-logout" class="hidden">Keluar</button>
+    </nav>
+
+    <main>
+        <header>
+            <h1>Pembukuan Bulanan</h1>
+            <h1>TPQ Nurul Haq</h1>
+        </header>
+
+        <form id="form-transaksi">
+            <input type="date" id="tanggal">
+            <select id="jenis">
+                <option value="pemasukan">Pemasukan</option>
+                <option value="pengeluaran">Pengeluaran</option>
+            </select>
+            <div class="baris-dua">
+                <select id="kategori"></select>
+                <input type="text" id="keterangan" placeholder="Keterangan">
+            </div>
+            <input type="text" id="jumlah" inputmode="numeric" placeholder="Jumlah (Rp)">
+            <button type="submit">Tambah</button>
+        </form>
+
+        <div id="ringkasan">
+            <div class="label">Pemasukan</div>
+            <div class="label">Pengeluaran</div>
+            <div class="label">Saldo</div>
+            <div class="value">Rp 0</div>
+            <div class="value">Rp 0</div>
+            <div class="value">Rp 0</div>
+        </div>
+
+        <button id="btn-detail">Tampilkan lebih banyak</button>
+        <div id="ringkasan-kategori" style="display:none;"></div>
+
+        <table id="daftar-transaksi">
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Kategori</th>
+                    <th>Keterangan</th>
+                    <th>Jumlah (Rp)</th>
+                    <th>Hapus</th>
+                </tr>
+            </thead>
+            <tbody id="body-transaksi"></tbody>
+        </table>
+
+        <div class="baris-tombol">
+            <button id="btn-hapus">Hapus Semua Data</button>
+        </div>
+    </main>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

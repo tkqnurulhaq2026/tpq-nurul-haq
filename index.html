@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan - TPQ Nurul Haq</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="laporan">
+
+    <nav>
+        <a href="index.html" class="active">Laporan</a>
+        <a href="pembukuan.html">Pembukuan</a>
+        <button id="btn-logout" class="hidden">Keluar</button>
+    </nav>
+
+    <main>
+        <div id="daftar-bulan" class="no-print"></div>
+
+        <h1 class="laporan-judul">Laporan Pembukuan TPQ Nurul Haq</h1>
+
+        <div id="isi-laporan"></div>
+
+        <div class="baris-tombol no-print">
+            <button id="btn-export">Export CSV</button>
+            <button id="btn-print">🖨️ Cetak</button>
+        </div>
+    </main>
+
+    <script type="module" src="laporan.js"></script>
+</body>
+</html>

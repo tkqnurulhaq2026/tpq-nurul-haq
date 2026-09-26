@@ -1,0 +1,575 @@
+main {
+    display: none;
+}
+
+main.ready {
+    display: block;
+}
+
+/* ===== Password Overlay ===== */
+#password-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #044671;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.password-box {
+    text-align: center;
+    background: #16213e;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.password-box p {
+    color: #e8e8e8;
+    margin-bottom: 1rem;
+}
+
+.password-box input {
+    display: block;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    width: 200px;
+    margin: 0 auto 0.5rem auto;
+}
+
+.password-box button {
+    display: block;
+    padding: 0.5rem 1.5rem;
+    background: #4a6cf7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.password-box button:hover {
+    background: #3a5ce5;
+}
+
+/* ===== Base ===== */
+body {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 1rem;
+    font-family: sans-serif;
+    background: #044671;
+    color: #e8e8e8;
+}
+
+h1 {
+    text-align: center;
+    font-size: 1.6rem;
+    margin: .2rem 0;
+    color: #f0f0f0;
+}
+
+/* ===== Navigation ===== */
+nav {
+    display: flex;
+    gap: .3rem;
+    margin-bottom: 1rem;
+    padding: .3rem;
+    background: #16213e;
+    border-radius: 8px;
+}
+
+nav a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    color: #aaa;
+    font-size: .85rem;
+    font-weight: 500;
+    padding: .45rem .5rem;
+    border-radius: 6px;
+    transition: background .2s, color .2s;
+}
+
+nav a:hover {
+    background: #2a2a4a;
+    color: #e0e0e0;
+}
+
+nav a.active {
+    background: #4a6cf7;
+    color: #fff;
+}
+
+#btn-logout {
+    display: none;
+    flex: 1;
+    text-align: center;
+    background: none;
+    border: none;
+    color: #f87171;
+    font-size: .85rem;
+    font-weight: 500;
+    padding: .45rem .5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+#btn-logout:hover {
+    background: #2a2a4a;
+    color: #ef4444;
+}
+
+#btn-logout.visible {
+    display: block;
+}
+
+/* ===== Form ===== */
+#form-transaksi {
+    font-size: .95rem;
+    padding: .7rem;
+}
+
+#form-transaksi input,
+#form-transaksi select {
+    font-size: .9rem;
+    padding: .4rem;
+    margin-bottom: .4rem;
+    width: 100%;
+    box-sizing: border-box;
+    background: #16213e;
+    color: #e0e0e0;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+#form-transaksi button {
+    font-size: .9rem;
+    padding: .4rem;
+    width: 100%;
+    background: #4a6cf7;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#form-transaksi button:hover {
+    background: #3a5ce5;
+}
+
+.baris-dua {
+    display: flex;
+    gap: .4rem;
+    margin-bottom: .4rem;
+}
+
+.baris-dua select,
+.baris-dua input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* ===== Summary (Ringkasan) ===== */
+#ringkasan,
+.arsip-ringkasan,
+.ringkasan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+    gap: .3rem;
+}
+
+#ringkasan .label,
+.arsip-ringkasan .label,
+.ringkasan-grid .label {
+    font-size: .8rem;
+    color: #e8e8e8;
+}
+
+#ringkasan .value,
+.arsip-ringkasan .value,
+.ringkasan-grid .value {
+    font-weight: bold;
+}
+
+.pemasukan {
+    color: #4ade80;
+}
+
+.pengeluaran {
+    color: #f87171;
+}
+
+/* ===== Category Detail ===== */
+#btn-detail {
+    display: block;
+    margin: .5rem auto;
+    padding: .3rem .8rem;
+    background: none;
+    border: 1px solid #444;
+    border-radius: 4px;
+    font-size: .85rem;
+    cursor: pointer;
+    color: #e8e8e8;
+    text-decoration: underline;
+}
+
+#btn-detail:hover {
+    background: #2a2a4a;
+}
+
+#ringkasan-kategori,
+.ringkasan-kategori-arsip {
+    margin-top: .5rem;
+    padding: .5rem;
+    background: #16213e;
+    border-radius: 4px;
+    font-size: .85rem;
+}
+
+.kat-dua,
+.laporan-kat-dua {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.kat-kolom {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+}
+
+.kat-judul {
+    font-weight: bold;
+    font-size: .8rem;
+    margin-bottom: .2rem;
+    color: #e8e8e8;
+}
+
+.kat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: .15rem 0;
+}
+
+.kat-row .kosong {
+    color: #666;
+}
+
+.ringkasan-kategori-arsip .kat-row .pemasukan {
+    color: #4ade80;
+}
+
+.ringkasan-kategori-arsip .kat-row .pengeluaran {
+    color: #f87171;
+}
+
+/* ===== Transaction Table ===== */
+#daftar-transaksi {
+    width: 100%;
+    border-collapse: collapse;
+    margin: .5rem 0;
+}
+
+#daftar-transaksi th,
+#daftar-transaksi td {
+    padding: .5rem;
+    border-bottom: 1px solid #2a2a4a;
+    text-align: left;
+    font-size: .75rem;
+}
+
+#daftar-transaksi th,
+#laporan-kat th,
+#laporan-detail th {
+    background: #16213e;
+    color: #aaa;
+}
+
+#daftar-transaksi .tanggal {
+    color: #e8e8e8;
+    white-space: nowrap;
+}
+
+#daftar-transaksi .kategori {
+    white-space: nowrap;
+}
+
+#daftar-transaksi .ket {
+    word-break: break-word;
+}
+
+#daftar-transaksi td.jumlah,
+#daftar-transaksi th:nth-child(4) {
+    width: 100px;
+    text-align:right;
+}
+
+#daftar-transaksi td:last-child {
+    width: 90px;
+    padding: .5rem .2rem;
+    text-align: right;
+}
+
+#daftar-transaksi th:last-child {
+    text-align: right;
+}
+
+.btn-hapus-row {
+    background: none;
+    border: 0;
+    color: #f87171;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: .2rem .4rem;
+}
+
+.btn-hapus-row:hover {
+    color: #ef4444;
+}
+
+/* ===== Action Buttons ===== */
+.baris-tombol {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: .5rem;
+}
+
+#btn-export,
+#btn-hapus {
+    padding: .5rem 1rem;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    font-size: .9rem;
+    cursor: pointer;
+}
+
+#btn-export {
+    background: #059669;
+}
+
+#btn-export:hover {
+    background: #047857;
+}
+
+#btn-hapus {
+    background: #dc2626;
+}
+
+#btn-hapus:hover {
+    background: #b91c1c;
+}
+
+/* ===== Archive (Arsip) ===== */
+.arsip-judul {
+    margin-bottom: 1rem;
+}
+
+.btn-bulan {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: .5rem;
+    margin-bottom: .3rem;
+    background: #16213e;
+    border: 1px solid #333;
+    border-radius: 4px;
+    font-size: .9rem;
+    color: #e0e0e0;
+    cursor: pointer;
+}
+
+.btn-bulan:hover {
+    background: #2a2a4a;
+}
+
+.arsip-ringkasan {
+    margin-top: 1rem;
+}
+
+/* ===== Report (Laporan) ===== */
+body.laporan h3 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}
+
+body.laporan h4 {
+    margin: .5rem 0;
+}
+
+.laporan-judul {
+    text-align: center;
+    font-size: 1.4rem;
+    color: #e8e8e8;
+}
+
+.laporan-bulan {
+    text-align: center;
+    color: #e8e8e8;
+    margin-bottom: 1rem;
+}
+
+.ringkasan-grid {
+    margin-bottom: 1rem;
+}
+
+.laporan-kat-dua {
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.laporan-kat,
+.laporan-detail {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.laporan-kat th,
+.laporan-kat td,
+.laporan-detail th,
+.laporan-detail td {
+    padding: .3rem .4rem;
+    border-bottom: 1px solid #2a2a4a;
+    text-align: left;
+    font-size: .85rem;
+}
+.laporan-kat th,
+.laporan-detail th {
+    background: #16213e;
+    color: #aaa;
+}
+
+.laporan-kat th:last-child,
+.laporan-kat td:last-child,
+.laporan-detail th:last-child,
+.laporan-detail td:last-child {
+    text-align: right;
+}
+
+.laporan-detail {
+    font-size: .85rem;
+}
+
+.laporan-detail th,
+.laporan-detail td {
+    font-size: .75rem;
+}
+
+#btn-print {
+    padding: .5rem 1rem;
+    background: #2980b9;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    font-size: .9rem;
+    cursor: pointer;
+}
+
+#btn-print:hover {
+    background: #2471a3;
+}
+
+/* ===== Print ===== */
+@media print {
+    nav, .no-print {
+        display: none !important;
+    }
+    body {
+        max-width: 100%;
+        padding: 0;
+        background: white;
+        color: black;
+    }
+    .laporan-judul,
+    .laporan-bulan,
+    .ringkasan-grid .label {
+        color: black;
+    }
+}
+
+/* ===== Confirm Modal ===== */
+.confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.confirm-box {
+    background: #16213e;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 300px;
+}
+
+.confirm-box p {
+    color: #e8e8e8;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.confirm-buttons button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.confirm-yes {
+    background: #dc2626;
+    color: white;
+}
+
+.confirm-yes:hover {
+    background: #b91c1c;
+}
+
+.confirm-no {
+    background: #333;
+    color: #e0e0e0;
+}
+
+.confirm-no:hover {
+    background: #444;
+}
+
+.btn-bulan.active {
+    background: #4a6cf7;
+    color: #fff;
+}
+
+nav a[href="pembukuan.html"] {
+    display: none;
+}
+
+nav.admin a[href="pembukuan.html"] {
+    display: inline-block;
+}
+
