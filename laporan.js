@@ -151,5 +151,3 @@ document.getElementById('btn-export').addEventListener('click', function() {
     link.download = `pembukuan-${currentKey || 'export'}.csv`;
     link.click();
 });
-
-});
