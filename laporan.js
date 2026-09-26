@@ -41,24 +41,23 @@ onSnapshot(q, (snapshot) => {
         currentKey = bulanMap[currentMonthKey] ? currentMonthKey : bulanKeys[0];
     }
 
-    daftarBulan.innerHTML = bulanKeys.map(key => {
-        const [mm, yyyy] = key.split('-');
-        const namaBulan = new Date(yyyy, mm - 1).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
-        const activeClass = key === currentKey ? ' active' : '';
-        return `<button class="btn-bulan${activeClass}" data-key="${key}">${namaBulan}</button>`;
-    }).join('');
+        daftarBulan.innerHTML = `
+        <select id="pilih-bulan">
+            ${bulanKeys.map(key => {
+                const [mm, yyyy] = key.split('-');
+                const namaBulan = new Date(yyyy, mm - 1).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+                const selected = key === currentKey ? ' selected' : '';
+                return `<option value="${key}"${selected}>${namaBulan}</option>`;
+            }).join('')}
+        </select>
+    `;
 
-    daftarBulan.querySelectorAll('.btn-bulan').forEach(btn => {
-        btn.addEventListener('click', function() {
-            currentKey = this.getAttribute('data-key');
-            renderBulan(bulanMap[currentKey], currentKey);
-            daftarBulan.querySelectorAll('.btn-bulan').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-        });
+    document.getElementById('pilih-bulan').addEventListener('change', function() {
+        currentKey = this.value;
+        renderBulan(bulanMap[currentKey], currentKey);
     });
 
     renderBulan(bulanMap[currentKey], currentKey);
-});
 
 function renderBulan(data, key) {
     currentData = data;

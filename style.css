@@ -574,3 +574,12 @@ nav.admin a[href="pembukuan.html"] {
     display: inline-block;
 }
 
+#pilih-bulan {
+    width: 100%;
+    padding: .5rem;
+    font-size: .9rem;
+    background: #16213e;
+    color: #e0e0e0;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
