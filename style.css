@@ -183,7 +183,7 @@ nav.admin a[href="/pembukuan"] {
 /* ===== Month Picker (shared: Laporan + Pembukuan) ===== */
 .select-bulan {
     width: 100%;
-    padding: .5rem;
+    padding: .7rem;
     font-size: .9rem;
     background: #16213e;
     color: #e0e0e0;

@@ -121,12 +121,10 @@ function renderMonthPicker() {
     document.getElementById('pilih-bulan-input').addEventListener('change', function() {
         currentMonthKey = this.value;
         updateDateRestriction();
-        document.querySelector('h1').textContent = `Pembukuan Bulan ${monthKeyToLabel(currentMonthKey)}`;
         render();
     });
 
     updateDateRestriction();
-    document.querySelector('h1').textContent = `Pembukuan Bulan ${monthKeyToLabel(currentMonthKey)}`;
 }
 
 // ===== Form submit =====
