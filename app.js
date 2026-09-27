@@ -252,14 +252,4 @@ document.getElementById('btn-detail').addEventListener('click', function() {
     }
 });
 
-// ===== Hapus semua data (deletes across ALL months, not just the one selected) =====
-document.getElementById('btn-hapus').addEventListener('click', async function() {
-    const ok = await showConfirm('Yakin hapus semua data? Tindakan ini tidak bisa dibatalkan.');
-    if (ok) {
-        for (const t of allTransaksi) {
-            await deleteDoc(doc(db, 'transaksi', t.id));
-        }
-    }
-});
-
 });

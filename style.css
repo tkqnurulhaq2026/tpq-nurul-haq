@@ -435,30 +435,18 @@ nav.admin a[href="/pembukuan"] {
     gap: .5rem;
 }
 
-#btn-export,
-#btn-hapus {
+#btn-export {
     padding: .5rem 1rem;
     color: #fff;
     border: 0;
     border-radius: 4px;
     font-size: .9rem;
     cursor: pointer;
-}
-
-#btn-export {
     background: #059669;
 }
 
 #btn-export:hover {
     background: #047857;
-}
-
-#btn-hapus {
-    background: #dc2626;
-}
-
-#btn-hapus:hover {
-    background: #b91c1c;
 }
 
 /* ===== Archive (Arsip) ===== */
