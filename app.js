@@ -68,7 +68,7 @@ function monthKeyToLabel(key) {
 
 function buildMonthKeyRange() {
     const now = new Date();
-    const keys = new Set();
+    const keys = [];
 
     // Fixed start: July 2026
     const startYear = 2026;
@@ -77,12 +77,12 @@ function buildMonthKeyRange() {
     let y = startYear;
     let m = startMonth;
     while (y < now.getFullYear() || (y === now.getFullYear() && m <= now.getMonth() + 1)) {
-        keys.add(`${String(m).padStart(2, '0')}-${y}`);
+        keys.push(`${String(m).padStart(2, '0')}-${y}`);
         m++;
         if (m > 12) { m = 1; y++; }
     }
 
-    return Array.from(keys).sort((a, b) => b.localeCompare(a));
+    return keys.reverse(); // newest first, in true chronological order
 }
 
 function updateDateRestriction() {
