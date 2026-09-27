@@ -1,63 +1,10 @@
+/* ===== Page Reveal (prevents flash before auth check) ===== */
 main {
     display: none;
 }
 
 main.ready {
     display: block;
-}
-
-/* ===== Password Overlay ===== */
-#password-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #044671;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.password-box {
-    text-align: center;
-    background: #16213e;
-    padding: 2rem;
-    border-radius: 8px;
-}
-
-.password-box p {
-    color: #e8e8e8;
-    margin-bottom: 1rem;
-}
-
-.password-box input {
-    display: block;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    border: 1px solid #444;
-    border-radius: 4px;
-    background: #1a1a2e;
-    color: #e0e0e0;
-    width: 200px;
-    margin: 0 auto 0.5rem auto;
-}
-
-.password-box button {
-    display: block;
-    padding: 0.5rem 1.5rem;
-    background: #4a6cf7;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    margin: 0 auto;
-}
-
-.password-box button:hover {
-    background: #3a5ce5;
 }
 
 /* ===== Base ===== */
@@ -78,11 +25,22 @@ h1 {
     color: #f0f0f0;
 }
 
-/* ===== Navigation ===== */
+/* ===== Top Bar (Nav + Logout) ===== */
+.top-bar {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: 1rem;
+}
+
+.top-bar nav {
+    flex: 1;
+    margin-bottom: 0;
+}
+
 nav {
     display: flex;
     gap: .3rem;
-    margin-bottom: 1rem;
     padding: .3rem;
     background: #16213e;
     border-radius: 8px;
@@ -110,16 +68,14 @@ nav a.active {
     color: #fff;
 }
 
-.top-bar {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    margin-bottom: 1rem;
+nav a[href="pembukuan.html"],
+nav a[href="/pembukuan"] {
+    display: none;
 }
 
-.top-bar nav {
-    flex: 1;
-    margin-bottom: 0;
+nav.admin a[href="pembukuan.html"],
+nav.admin a[href="/pembukuan"] {
+    display: inline-block;
 }
 
 #btn-logout {
@@ -145,7 +101,121 @@ nav a.active {
     display: block;
 }
 
-/* ===== Form ===== */
+/* ===== Password / Login Overlay ===== */
+#password-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #044671;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.password-box {
+    text-align: center;
+    background: #16213e;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.password-box p {
+    color: #e8e8e8;
+    margin-bottom: 1rem;
+}
+
+.password-box input {
+    display: block;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    width: 200px;
+    margin: 0 auto 0.5rem auto;
+}
+
+.password-box .password-wrapper {
+    position: relative;
+    width: 200px;
+    margin: 0 auto 0.5rem auto;
+}
+
+.password-box .password-wrapper input {
+    width: 100%;
+    margin-bottom: 0;
+    padding-right: 2.2rem;
+}
+
+#toggle-password {
+    position: absolute;
+    right: 0.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+}
+
+.password-box button {
+    display: block;
+    padding: 0.5rem 1.5rem;
+    background: #4a6cf7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.password-box button:hover {
+    background: #3a5ce5;
+}
+
+/* ===== Month Picker (shared: Laporan + Pembukuan) ===== */
+.select-bulan {
+    width: 100%;
+    padding: .5rem;
+    font-size: .9rem;
+    background: #16213e;
+    color: #e0e0e0;
+    border: 1px solid #333;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.btn-bulan {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: .5rem;
+    margin-bottom: .3rem;
+    background: #16213e;
+    border: 1px solid #333;
+    border-radius: 4px;
+    font-size: .9rem;
+    color: #e0e0e0;
+    cursor: pointer;
+}
+
+.btn-bulan:hover {
+    background: #2a2a4a;
+}
+
+.btn-bulan.active {
+    background: #4a6cf7;
+    color: #fff;
+}
+
+/* ===== Form (Pembukuan) ===== */
 #form-transaksi {
     font-size: .95rem;
     padding: .7rem;
@@ -287,7 +357,7 @@ nav a.active {
     color: #f87171;
 }
 
-/* ===== Transaction Table ===== */
+/* ===== Transaction Table (Pembukuan) ===== */
 #daftar-transaksi {
     width: 100%;
     border-collapse: collapse;
@@ -325,7 +395,7 @@ nav a.active {
 #daftar-transaksi td.jumlah,
 #daftar-transaksi th:nth-child(4) {
     width: 100px;
-    text-align:right;
+    text-align: right;
 }
 
 #daftar-transaksi td:last-child {
@@ -390,24 +460,6 @@ nav a.active {
     margin-bottom: 1rem;
 }
 
-.btn-bulan {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: .5rem;
-    margin-bottom: .3rem;
-    background: #16213e;
-    border: 1px solid #333;
-    border-radius: 4px;
-    font-size: .9rem;
-    color: #e0e0e0;
-    cursor: pointer;
-}
-
-.btn-bulan:hover {
-    background: #2a2a4a;
-}
-
 .arsip-ringkasan {
     margin-top: 1rem;
 }
@@ -458,6 +510,7 @@ body.laporan h4 {
     text-align: left;
     font-size: .85rem;
 }
+
 .laporan-kat th,
 .laporan-detail th {
     background: #16213e;
@@ -492,24 +545,6 @@ body.laporan h4 {
 
 #btn-print:hover {
     background: #2471a3;
-}
-
-/* ===== Print ===== */
-@media print {
-    nav, .no-print {
-        display: none !important;
-    }
-    body {
-        max-width: 100%;
-        padding: 0;
-        background: white;
-        color: black;
-    }
-    .laporan-judul,
-    .laporan-bulan,
-    .ringkasan-grid .label {
-        color: black;
-    }
 }
 
 /* ===== Confirm Modal ===== */
@@ -572,49 +607,20 @@ body.laporan h4 {
     background: #444;
 }
 
-.btn-bulan.active {
-    background: #4a6cf7;
-    color: #fff;
-}
-
-nav a[href="pembukuan.html"] {
-    display: none;
-}
-
-nav.admin a[href="pembukuan.html"] {
-    display: inline-block;
-}
-
-#pilih-bulan {
-    width: 100%;
-    padding: .5rem;
-    font-size: .9rem;
-    background: #16213e;
-    color: #e0e0e0;
-    border: 1px solid #333;
-    border-radius: 4px;
-}
-
-.password-box .password-wrapper {
-    position: relative;
-    width: 200px;
-    margin: 0 auto 0.5rem auto;
-}
-
-.password-box .password-wrapper input {
-    width: 100%;
-    margin-bottom: 0;
-    padding-right: 2.2rem;
-}
-
-#toggle-password {
-    position: absolute;
-    right: 0.4rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    padding: 0;
+/* ===== Print ===== */
+@media print {
+    nav, .no-print {
+        display: none !important;
+    }
+    body {
+        max-width: 100%;
+        padding: 0;
+        background: white;
+        color: black;
+    }
+    .laporan-judul,
+    .laporan-bulan,
+    .ringkasan-grid .label {
+        color: black;
+    }
 }
