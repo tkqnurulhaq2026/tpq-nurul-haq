@@ -10,13 +10,17 @@ import { showConfirm } from './ui.js';
 function showLoginOverlay() {
     const overlay = document.createElement('div');
     overlay.id = 'password-overlay';
-        overlay.innerHTML = `
+        const eyeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+
+        const eyeOffIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+
+    overlay.innerHTML = `
         <div class="password-box">
             <p>🔒 Masuk ke akun</p>
             <input type="email" id="login-email" placeholder="Email">
             <div class="password-wrapper">
                 <input type="password" id="login-password" placeholder="Password">
-                <button type="button" id="toggle-password">👁</button>
+                <button type="button" id="toggle-password">${eyeIcon}</button>
             </div>
             <button id="login-btn">Masuk</button>
             <p id="login-error" style="color:#f87171; font-size:0.8rem; margin-top:0.5rem;"></p>
@@ -24,14 +28,14 @@ function showLoginOverlay() {
     `;
     document.body.prepend(overlay);
 
-    document.getElementById('toggle-password').addEventListener('click', function() {
+        document.getElementById('toggle-password').addEventListener('click', function() {
         const pwInput = document.getElementById('login-password');
         if (pwInput.type === 'password') {
             pwInput.type = 'text';
-            this.textContent = '🙈';
+            this.innerHTML = eyeOffIcon;
         } else {
             pwInput.type = 'password';
-            this.textContent = '👁';
+            this.innerHTML = eyeIcon;
         }
     });
 
