@@ -69,15 +69,19 @@ function monthKeyToLabel(key) {
 function buildMonthKeyRange() {
     const now = new Date();
     const keys = new Set();
-    for (let y = now.getFullYear() - 1; y <= now.getFullYear() + 1; y++) {
-        for (let m = 1; m <= 12; m++) {
-            keys.add(`${String(m).padStart(2, '0')}-${y}`);
-        }
+
+    // Fixed start: July 2026
+    const startYear = 2026;
+    const startMonth = 7;
+
+    let y = startYear;
+    let m = startMonth;
+    while (y < now.getFullYear() || (y === now.getFullYear() && m <= now.getMonth() + 1)) {
+        keys.add(`${String(m).padStart(2, '0')}-${y}`);
+        m++;
+        if (m > 12) { m = 1; y++; }
     }
-    allTransaksi.forEach(t => {
-        const [, mm, yyyy] = t.tanggal.split('-');
-        keys.add(`${mm}-${yyyy}`);
-    });
+
     return Array.from(keys).sort((a, b) => b.localeCompare(a));
 }
 
