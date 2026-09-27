@@ -624,3 +624,8 @@ body.laporan h4 {
         color: black;
     }
 }
+
+#pilih-bulan-wrapper {
+    padding: 0 .7rem;
+    box-sizing: border-box;
+}
