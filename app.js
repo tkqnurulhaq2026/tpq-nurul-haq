@@ -7,15 +7,19 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
 requireAuth({ requireRole: 'admin' }).then(({ user, role }) => {
-    document.querySelector('main').classList.add('ready');
+
+document.querySelector('main').classList.add('ready');
 
 const jenisSelect = document.getElementById('jenis');
 const kategoriSelect = document.getElementById('kategori');
+const tanggalInput = document.getElementById('tanggal');
+const pilihBulanWrapper = document.getElementById('pilih-bulan-wrapper');
 
 let kategoriList = { pemasukan: [], pengeluaran: [] };
-let transaksi = [];
+let allTransaksi = [];
+let currentMonthKey = null; // "mm-yyyy"
 
-// ===== Kategori: live sync from Firestore =====
+// ===== Kategori: live sync =====
 onSnapshot(doc(db, 'kategori', 'pemasukan'), (snap) => {
     kategoriList.pemasukan = snap.exists() ? snap.data().list : [];
     updateKategori();
@@ -43,20 +47,83 @@ kategoriSelect.addEventListener('change', async function() {
             if (kategoriList[jenis].includes(namaTrim)) {
                 alert('Kategori sudah ada.');
             } else {
-                await updateDoc(doc(db, 'kategori', jenis), {
-                    list: arrayUnion(namaTrim)
-                });
+                await updateDoc(doc(db, 'kategori', jenis), { list: arrayUnion(namaTrim) });
             }
         }
         updateKategori();
     }
 });
 
-// ===== Jumlah input formatting =====
+// ===== Jumlah formatting =====
 document.getElementById('jumlah').addEventListener('input', function() {
     const raw = this.value.replace(/\D/g, '');
     this.value = raw ? parseInt(raw).toLocaleString('id-ID') : '';
 });
+
+// ===== Month picker =====
+function monthKeyToLabel(key) {
+    const [mm, yyyy] = key.split('-');
+    return new Date(yyyy, mm - 1).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+}
+
+function buildMonthKeyRange() {
+    const now = new Date();
+    const keys = new Set();
+    for (let y = now.getFullYear() - 1; y <= now.getFullYear() + 1; y++) {
+        for (let m = 1; m <= 12; m++) {
+            keys.add(`${String(m).padStart(2, '0')}-${y}`);
+        }
+    }
+    allTransaksi.forEach(t => {
+        const [, mm, yyyy] = t.tanggal.split('-');
+        keys.add(`${mm}-${yyyy}`);
+    });
+    return Array.from(keys).sort((a, b) => b.localeCompare(a));
+}
+
+function updateDateRestriction() {
+    const [mm, yyyy] = currentMonthKey.split('-');
+    const lastDay = new Date(yyyy, mm, 0).getDate();
+    const minDate = `${yyyy}-${mm}-01`;
+    const maxDate = `${yyyy}-${mm}-${String(lastDay).padStart(2, '0')}`;
+
+    tanggalInput.min = minDate;
+    tanggalInput.max = maxDate;
+
+    if (tanggalInput.value < minDate || tanggalInput.value > maxDate) {
+        const now = new Date();
+        const nowKey = `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
+        tanggalInput.value = (nowKey === currentMonthKey)
+            ? `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+            : minDate;
+    }
+}
+
+function renderMonthPicker() {
+    const now = new Date();
+    const nowKey = `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
+    if (!currentMonthKey) currentMonthKey = nowKey;
+
+    const allKeys = buildMonthKeyRange();
+
+    pilihBulanWrapper.innerHTML = `
+        <select id="pilih-bulan-input" class="select-bulan">
+            ${allKeys.map(key =>
+                `<option value="${key}"${key === currentMonthKey ? ' selected' : ''}>${monthKeyToLabel(key)}</option>`
+            ).join('')}
+        </select>
+    `;
+
+    document.getElementById('pilih-bulan-input').addEventListener('change', function() {
+        currentMonthKey = this.value;
+        updateDateRestriction();
+        document.querySelector('h1').textContent = `Pembukuan Bulan ${monthKeyToLabel(currentMonthKey)}`;
+        render();
+    });
+
+    updateDateRestriction();
+    document.querySelector('h1').textContent = `Pembukuan Bulan ${monthKeyToLabel(currentMonthKey)}`;
+}
 
 // ===== Form submit =====
 document.getElementById('form-transaksi').addEventListener('submit', async function(e) {
@@ -76,8 +143,7 @@ document.getElementById('form-transaksi').addEventListener('submit', async funct
         return;
     }
 
-    const tanggalInput = document.getElementById('tanggal').value;
-    const [yyyy, mm, dd] = tanggalInput.split('-');
+    const [yyyy, mm, dd] = tanggalInput.value.split('-');
 
     await addDoc(collection(db, 'transaksi'), {
         jenis, kategori, keterangan, jumlah,
@@ -93,12 +159,18 @@ document.getElementById('form-transaksi').addEventListener('submit', async funct
 // ===== Live transaksi list =====
 const q = query(collection(db, 'transaksi'), orderBy('createdAt', 'desc'));
 onSnapshot(q, (snapshot) => {
-    transaksi = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    allTransaksi = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderMonthPicker();
     render();
 });
 
-// ===== Render summary + list =====
+// ===== Render (scoped to selected month) =====
 function render() {
+    const transaksi = allTransaksi.filter(t => {
+        const [, mm, yyyy] = t.tanggal.split('-');
+        return `${mm}-${yyyy}` === currentMonthKey;
+    });
+
     const totalMasuk = transaksi.filter(t => t.jenis === 'pemasukan').reduce((sum, t) => sum + t.jumlah, 0);
     const totalKeluar = transaksi.filter(t => t.jenis === 'pengeluaran').reduce((sum, t) => sum + t.jumlah, 0);
     const saldo = totalMasuk - totalKeluar;
@@ -123,7 +195,6 @@ function render() {
         </tr>
     `).join('');
 
-    // Per-kategori breakdown
     const detail = document.getElementById('ringkasan-kategori');
     const katMap = {};
     transaksi.forEach(t => {
@@ -154,7 +225,6 @@ function render() {
         </div>
     `;
 
-    // Delete row handler
     body.querySelectorAll('.btn-hapus-row').forEach(btn => {
         btn.addEventListener('click', async function() {
             const id = this.getAttribute('data-id');
@@ -180,21 +250,14 @@ document.getElementById('btn-detail').addEventListener('click', function() {
     }
 });
 
-// ===== Hapus semua data =====
+// ===== Hapus semua data (deletes across ALL months, not just the one selected) =====
 document.getElementById('btn-hapus').addEventListener('click', async function() {
     const ok = await showConfirm('Yakin hapus semua data? Tindakan ini tidak bisa dibatalkan.');
     if (ok) {
-        for (const t of transaksi) {
+        for (const t of allTransaksi) {
             await deleteDoc(doc(db, 'transaksi', t.id));
         }
     }
 });
 
-// ===== Init =====
-const bulan = new Date().toLocaleDateString('id-ID', { month: 'long' });
-document.querySelector('h1').textContent = `Pembukuan Bulan ${bulan}`;
-
-const d = new Date();
-document.getElementById('tanggal').value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-
-}); // closes requireAuth().then(...)
+});

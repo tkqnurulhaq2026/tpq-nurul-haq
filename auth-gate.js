@@ -10,16 +10,30 @@ import { showConfirm } from './ui.js';
 function showLoginOverlay() {
     const overlay = document.createElement('div');
     overlay.id = 'password-overlay';
-    overlay.innerHTML = `
+        overlay.innerHTML = `
         <div class="password-box">
             <p>🔒 Masuk ke akun</p>
             <input type="email" id="login-email" placeholder="Email">
-            <input type="password" id="login-password" placeholder="Password">
+            <div class="password-wrapper">
+                <input type="password" id="login-password" placeholder="Password">
+                <button type="button" id="toggle-password">👁</button>
+            </div>
             <button id="login-btn">Masuk</button>
             <p id="login-error" style="color:#f87171; font-size:0.8rem; margin-top:0.5rem;"></p>
         </div>
     `;
     document.body.prepend(overlay);
+
+    document.getElementById('toggle-password').addEventListener('click', function() {
+        const pwInput = document.getElementById('login-password');
+        if (pwInput.type === 'password') {
+            pwInput.type = 'text';
+            this.textContent = '🙈';
+        } else {
+            pwInput.type = 'password';
+            this.textContent = '👁';
+        }
+    });
 
     function attemptLogin() {
         const email = document.getElementById('login-email').value.trim();

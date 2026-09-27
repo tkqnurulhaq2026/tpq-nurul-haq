@@ -42,7 +42,7 @@ onSnapshot(q, (snapshot) => {
     }
 
         daftarBulan.innerHTML = `
-        <select id="pilih-bulan">
+        <select id="pilih-bulan" class="select-bulan">
             ${bulanKeys.map(key => {
                 const [mm, yyyy] = key.split('-');
                 const namaBulan = new Date(yyyy, mm - 1).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
