@@ -609,9 +609,10 @@ body.laporan h4 {
 
 /* ===== Print ===== */
 @media print {
-    nav, .no-print {
+    nav, .no-print, #btn-logout {
         display: none !important;
     }
+
     body {
         max-width: 100%;
         padding: 0;
